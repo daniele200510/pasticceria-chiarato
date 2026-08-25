@@ -1,0 +1,8 @@
+{
+  "name": "pasticceria-chiarato",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "python3 serve.py"
+  }
+}

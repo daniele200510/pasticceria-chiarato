@@ -1,0 +1,654 @@
+:root {
+  --cream: #f7f2e9;
+  --paper: #fdfbf7;
+  --sand: #ece0d0;
+  --brown: #43301d;
+  --brown-soft: #7a634c;
+  --gold: #a8875f;
+  --gold-light: #d6c3a8;
+  --white: #fffdf8;
+  --line: rgba(67, 48, 29, 0.14);
+  --line-strong: rgba(67, 48, 29, 0.3);
+
+  --display: "Cormorant Garamond", Georgia, serif;
+  --sans: "DM Sans", Helvetica, Arial, sans-serif;
+
+  /* una sola scala di ritmo per tutta la pagina: sezioni, colonne e griglie
+     respirano con gli stessi valori invece di un clamp diverso per blocco */
+  --pad: clamp(22px, 5vw, 88px);
+  --gap: clamp(16px, 1.9vw, 26px);
+  --section-y: clamp(54px, 6vw, 96px);
+  --h1: clamp(2.9rem, 5.4vw, 5rem);
+  --h2: clamp(2.3rem, 4.2vw, 4rem);
+  --h3: clamp(1.3rem, 1.8vw, 1.6rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --header-h: clamp(74px, 8vw, 104px);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--brown);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body, a, button { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.04; letter-spacing: -0.012em; }
+h1 em, h2 em { color: var(--gold); font-style: italic; }
+::selection { background: var(--gold); color: var(--white); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* l'header è sticky: senza questo gli anchor finiscono sotto la barra */
+[id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+
+/* ---------- elementi condivisi ---------- */
+
+.eyebrow {
+  margin-bottom: 15px;
+  color: var(--gold);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.icon-sprite { display: none; }
+.icon { width: 1.05em; height: 1.05em; flex: 0 0 auto; }
+.with-icon { display: inline-flex; align-items: center; gap: 9px; }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 48px;
+  padding: 0 30px;
+  border: 1px solid var(--brown);
+  border-radius: 999px;
+  background: var(--brown);
+  color: var(--white);
+  font-size: 0.68rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  transition: background 420ms var(--ease), color 420ms var(--ease), transform 420ms var(--ease);
+}
+.button:hover { background: transparent; color: var(--brown); transform: translateY(-2px); }
+
+/* secondario: contorno marrone, glifo nel verde ufficiale WhatsApp — l'unico
+   accento saturo della pagina, tenuto anche in hover perché è il segnale che si riconosce */
+.button-wa { background: transparent; color: var(--brown); }
+.button-wa:hover { background: var(--brown); color: var(--white); }
+.button-wa .icon { color: #25d366; }
+
+.under-link {
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line-strong);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 340ms var(--ease), color 340ms var(--ease);
+}
+.under-link:hover { border-color: var(--gold); color: var(--gold); }
+
+/* un solo componente per ogni foto: proporzione fissa sulla figure, immagine
+   che riempie il ritaglio, didascalia in sovrimpressione dentro lo stesso box.
+   ponytail: caption dentro la figure = zero wrapper extra per lo zoom in hover */
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--sand);
+}
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1100ms var(--ease);
+}
+.frame-square { aspect-ratio: 1 / 1; }
+.frame figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 46px 20px 16px;
+  background: linear-gradient(to top, rgba(30, 20, 10, 0.62), transparent);
+  color: var(--white);
+  font-size: 0.62rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.section { padding: var(--section-y) var(--pad); }
+
+.section-intro {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(28px, 5vw, 88px);
+  align-items: end;
+  margin-bottom: clamp(32px, 3.4vw, 52px);
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line);
+}
+.section-intro h2, .story-text h2, .booking-copy h2 { font-size: var(--h2); }
+.section-copy { max-width: 390px; color: var(--brown-soft); font-size: 0.92rem; }
+.section-copy .under-link { display: inline-block; margin-top: 16px; }
+
+/* ---------- barra informazioni + header ---------- */
+
+.announcement {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 11px var(--pad);
+  color: var(--gold-light);
+  background: var(--brown);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.announcement a { transition: color 300ms var(--ease); }
+.announcement a:hover { color: var(--white); }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(16px, 3vw, 48px);
+  min-height: var(--header-h);
+  padding: clamp(15px, 1.7vw, 24px) var(--pad);
+  border-bottom: 1px solid transparent;
+  background: color-mix(in srgb, var(--cream) 84%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  transition: min-height 520ms var(--ease), padding 520ms var(--ease),
+    border-color 520ms var(--ease), box-shadow 520ms var(--ease);
+}
+/* si compatta quando la barra informazioni è uscita dallo schermo */
+.site-header.is-scrolled {
+  min-height: 0;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  border-bottom-color: var(--line);
+  box-shadow: 0 18px 40px -30px rgba(67, 48, 29, 0.7);
+}
+
+.logo { display: block; flex: 0 0 auto; }
+.logo img {
+  width: clamp(146px, 15vw, 208px);
+  height: auto;
+  transition: width 520ms var(--ease);
+}
+.is-scrolled .logo img { width: clamp(124px, 12vw, 166px); }
+
+.navigation { display: flex; align-items: center; gap: clamp(18px, 2.8vw, 44px); font-size: 0.78rem; }
+.navigation a { position: relative; transition: color 300ms var(--ease); }
+.navigation a:not(.nav-cta)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -7px;
+  left: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 480ms var(--ease);
+}
+.navigation a:not(.nav-cta):hover { color: var(--gold); }
+.navigation a:not(.nav-cta):hover::after { transform: scaleX(1); }
+.navigation .nav-cta {
+  padding: 12px 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 420ms var(--ease), color 420ms var(--ease), border-color 420ms var(--ease);
+}
+.navigation .nav-cta:hover { border-color: var(--brown); background: var(--brown); color: var(--white); }
+
+.menu-button { display: none; padding: 8px 0 8px 10px; border: 0; background: none; cursor: pointer; }
+.menu-button span {
+  display: block;
+  width: 25px;
+  height: 1px;
+  margin: 6px 0;
+  background: var(--brown);
+  transition: transform 420ms var(--ease), opacity 260ms var(--ease);
+}
+.menu-button[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-button[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-button[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ---------- hero ---------- */
+
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  align-items: center;
+  min-height: min(720px, 84vh);
+  padding: clamp(48px, 6vw, 90px) var(--pad) clamp(54px, 6.5vw, 96px);
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+/* copia sfocata sopra quella nitida, mascherata a sinistra: la foto resta
+   intera e nitida a destra, si impasta solo sotto il testo.
+   Niente backdrop-filter: mascherato non è affidabile fuori da Chrome,
+   e più di un browser sfoca comunque tutto il riquadro. */
+.hero-bg-blur {
+  z-index: -2;
+  filter: blur(17px);
+  transform: scale(1.08); /* la sfocatura mangerebbe i bordi */
+  /* orizzontale netto: inclinata di 5° scopriva il testo in basso a sinistra
+     sulle finestre più alte che larghe */
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 62%, transparent 74%);
+  mask-image: linear-gradient(to right, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 62%, transparent 74%);
+}
+/* velo crema, si spegne dove la foto deve tornare leggibile */
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* i fermi seguono la colonna del testo, che è ~50% della griglia a ogni
+     larghezza: piena fin lì, spenta poco dopo */
+  background: linear-gradient(
+    to right,
+    rgba(247, 242, 233, 0.94) 0%,
+    rgba(247, 242, 233, 0.92) 44%,
+    rgba(247, 242, 233, 0.6) 58%,
+    rgba(247, 242, 233, 0.14) 68%,
+    rgba(247, 242, 233, 0) 76%
+  );
+}
+.hero-copy { max-width: 580px; }
+.hero h1 { font-size: var(--h1); }
+.hero-lede { max-width: 490px; margin-top: 24px; color: var(--brown-soft); font-size: 0.95rem; }
+.hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 32px; }
+
+/* ---------- fascia numeri ---------- */
+
+.credentials {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.credentials div {
+  padding: clamp(22px, 2.4vw, 32px) var(--pad);
+  border-left: 1px solid var(--line);
+}
+.credentials div:first-child { border-left: 0; }
+.credentials strong { display: block; font: 400 clamp(1.5rem, 2.2vw, 2.15rem) / 1 var(--display); }
+.credentials span {
+  display: block;
+  margin-top: 9px;
+  color: var(--brown-soft);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- il nostro mondo ---------- */
+
+.world-section { background: var(--paper); }
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.product-card { display: flex; min-width: 0; flex-direction: column; }
+.product-card:hover .frame img { transform: scale(1.045); }
+.product-meta {
+  display: flex;
+  gap: 16px;
+  align-items: baseline;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.product-meta h3 { font-size: var(--h3); transition: color 340ms var(--ease); }
+.product-card:hover .product-meta h3 { color: var(--gold); }
+.product-index { flex: 0 0 auto; color: var(--gold); font-size: 0.62rem; letter-spacing: 0.12em; }
+.product-card > p { padding-top: 12px; color: var(--brown-soft); font-size: 0.84rem; }
+
+/* ---------- pagina storia ---------- */
+
+.page-hero { max-width: 760px; padding: clamp(46px, 5.5vw, 84px) var(--pad) clamp(30px, 3.4vw, 48px); }
+.page-hero h1 { font-size: var(--h1); }
+.page-lede { margin-top: 26px; color: var(--brown-soft); font-size: 1rem; }
+.page-banner { aspect-ratio: 21 / 9; margin: 0 var(--pad); }
+
+.story-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(30px, 4.6vw, 76px);
+  align-items: center;
+}
+.story-pair.is-reversed { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+.story-text { max-width: 560px; }
+.story-text h2 { font-size: clamp(1.9rem, 3vw, 2.9rem); }
+.story-text p { margin-top: 20px; color: var(--brown-soft); font-size: 0.95rem; }
+
+.page-cta { padding: var(--section-y) var(--pad); background: var(--sand); text-align: center; }
+.page-cta h2 { font-size: var(--h2); }
+.page-cta-actions { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 32px; flex-wrap: wrap; }
+
+/* ---------- prenotazione ---------- */
+
+.booking-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(34px, 4.6vw, 74px);
+  align-items: center;
+  padding: var(--section-y) var(--pad);
+  background: var(--sand);
+}
+.booking-lede { max-width: 430px; margin-top: 18px; color: var(--brown-soft); font-size: 0.95rem; }
+.booking-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.booking-note { max-width: 400px; margin-top: 20px; color: var(--brown-soft); font-size: 0.76rem; line-height: 1.5; }
+
+/* carosello: scroll nativo con snap, le frecce chiamano scrollBy e ripartono
+   da capo quando arrivano in fondo. ponytail: niente libreria, il trascinamento
+   col dito e col trackpad lo fa già il browser */
+.carousel { position: relative; }
+.carousel-track {
+  display: flex;
+  gap: clamp(12px, 1.6vw, 22px);
+  margin: 0;
+  padding: 0 0 4px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  list-style: none;
+  scrollbar-width: none;
+}
+.carousel-track::-webkit-scrollbar { display: none; }
+.carousel-track li {
+  display: flex;
+  flex: 0 0 clamp(150px, 26%, 240px);
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  scroll-snap-align: start;
+}
+/* tutte le schede sono lo stesso rettangolo su fondo chiaro: i ritagli ci stanno
+   dentro (contain), le foto lo riempiono (cover). Nessun wrapper: il fondo sta
+   sull'immagine e si vede solo dove il PNG è trasparente */
+.carousel-track img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  padding: 10px;
+  background: var(--paper);
+  object-fit: contain;
+  transition: transform 700ms var(--ease);
+}
+.carousel-track img.is-photo { padding: 0; object-fit: cover; }
+.carousel-track li:hover img { transform: translateY(-6px); }
+.carousel-track span {
+  margin-top: 14px;
+  color: var(--brown-soft);
+  font-size: 0.6rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+/* frecce sotto la corsa e non sopra le foto: a filo con la prima scheda
+   coprivano la torta */
+.carousel-nav { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.carousel-arrow {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--brown);
+  cursor: pointer;
+  place-items: center;
+  transition: background 340ms var(--ease), color 340ms var(--ease), border-color 340ms var(--ease);
+}
+.carousel-arrow:hover { border-color: var(--brown); background: var(--brown); color: var(--cream); }
+.carousel-arrow svg { width: 20px; height: 20px; }
+
+/* ---------- recensioni ---------- */
+
+.reviews-section { padding: var(--section-y) var(--pad); background: var(--paper); }
+.review-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+.review {
+  display: flex;
+  flex-direction: column;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-strong);
+}
+.stars { margin-bottom: 18px; color: var(--gold); font-size: 0.8rem; letter-spacing: 0.18em; }
+.review p { font: italic 400 1.2rem / 1.44 var(--display); }
+.review cite {
+  margin-top: auto;
+  padding-top: 24px;
+  color: var(--brown-soft);
+  font-size: 0.64rem;
+  font-style: normal;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- contatti ---------- */
+
+.contact-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(36px, 5vw, 84px);
+  padding: var(--section-y) var(--pad);
+  background: var(--brown);
+  color: var(--cream);
+}
+.contact-logo { width: min(100%, 300px); height: auto; }
+.contact-claim {
+  margin-top: 26px;
+  color: var(--gold-light);
+  font: italic 400 clamp(1.5rem, 2.1vw, 2.1rem) / 1.24 var(--display);
+}
+.contact-details { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 2.4vw, 32px) clamp(20px, 3vw, 40px); margin-top: clamp(28px, 3vw, 42px); }
+.contact-details > div:first-child { grid-column: 1 / -1; }
+
+/* la mappa riempie in altezza la colonna delle informazioni */
+.contact-map { position: relative; display: grid; min-height: 340px; }
+.contact-map iframe { width: 100%; height: 100%; border: 0; background: var(--sand); }
+/* in alto a destra: in basso ci sono i controlli e l'attribuzione di Google */
+.map-link {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: var(--cream);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 24px -12px rgba(24, 13, 5, 0.9);
+  transition: background 340ms var(--ease), color 340ms var(--ease);
+}
+.map-link:hover { background: var(--cream); color: var(--brown); }
+.contact-details > div { padding-top: 20px; border-top: 1px solid rgba(247, 242, 233, 0.28); }
+.contact-details span { color: var(--gold-light); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; }
+.contact-details p { margin-top: 14px; color: rgba(247, 242, 233, 0.78); font-size: 0.8rem; }
+.contact-links { display: grid; justify-items: start; gap: 9px; }
+.contact-links .icon { color: var(--gold-light); transition: color 300ms var(--ease); }
+.contact-links a:hover .icon { color: var(--cream); }
+.contact-details a { transition: color 300ms var(--ease); }
+.contact-details a:hover { color: var(--gold-light); }
+.hours b {
+  display: block;
+  margin-top: 10px;
+  color: var(--gold-light);
+  font-weight: 400;
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.hours b:first-child { margin-top: 0; }
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 24px var(--pad);
+  background: #34240f;
+  color: rgba(247, 242, 233, 0.62);
+  font-size: 0.64rem;
+}
+.footer-brand { color: var(--cream); font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.2em; }
+footer a { transition: color 300ms var(--ease); }
+footer a:hover { color: var(--cream); }
+
+/* ---------- comparsa allo scorrimento ---------- */
+
+.reveal { transition: opacity 900ms var(--ease), transform 900ms var(--ease); }
+.js .reveal { opacity: 0; transform: translateY(24px); }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* sfalsamento dentro le griglie e nell'hero: una riga di CSS invece di
+   un attributo per elemento */
+:is(.product-grid, .review-list) .reveal:nth-child(2) { transition-delay: 90ms; }
+:is(.product-grid, .review-list) .reveal:nth-child(3) { transition-delay: 180ms; }
+.review-list .reveal:nth-child(4) { transition-delay: 270ms; }
+.hero-copy .reveal:nth-child(2) { transition-delay: 80ms; }
+.hero-copy .reveal:nth-child(3) { transition-delay: 160ms; }
+.hero-copy .reveal:nth-child(4) { transition-delay: 240ms; }
+
+/* lo sfondo dell'hero entra con una lenta chiusura di zoom, le due copie
+   si muovono insieme mantenendo lo scarto di scala */
+.hero-bg { animation: heroIn 2600ms var(--ease) both; }
+.hero-bg-blur { animation: heroInBlur 2600ms var(--ease) both; }
+@keyframes heroIn {
+  from { transform: scale(1.08); }
+  to { transform: none; }
+}
+@keyframes heroInBlur {
+  from { transform: scale(1.17); }
+  to { transform: scale(1.08); }
+}
+
+/* con cinque voci più il pulsante la barra si stringe prima di impilarsi */
+@media (max-width: 1180px) {
+  .navigation { gap: clamp(14px, 1.9vw, 26px); font-size: 0.74rem; }
+  .logo img { width: clamp(132px, 13vw, 172px); }
+}
+
+/* fascia intermedia: la finestra è ancora larga abbastanza per due colonne,
+   quello che cambia è la densità — celle più strette, foto più compatte */
+@media (max-width: 1080px) {
+  .credentials div { padding-right: clamp(14px, 2vw, 26px); padding-left: clamp(14px, 2vw, 26px); }
+  .credentials div:first-child { padding-left: var(--pad); }
+  .credentials div:last-child { padding-right: var(--pad); }
+  .review-list { grid-template-columns: repeat(2, 1fr); }
+  .review-list .reveal:nth-child(3) { transition-delay: 0ms; }
+  .review-list .reveal:nth-child(4) { transition-delay: 90ms; }
+  /* il blocco prenota impila, quindi il testo può prendersi tutta la riga
+     invece di lasciare mezza pagina vuota a destra */
+  .booking-section { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .booking-lede, .booking-note { max-width: 62ch; }
+  .carousel { margin-top: clamp(30px, 4vw, 48px); }
+  .carousel-track li { flex-basis: clamp(150px, 26%, 220px); }
+}
+
+@media (max-width: 860px) {
+  .credentials { grid-template-columns: repeat(2, 1fr); }
+  .credentials div:nth-child(3) { border-left: 0; }
+  .credentials div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .section-intro, .contact-section { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .contact-map { min-height: 300px; }
+}
+
+/* l'hero si impila solo quando le due colonne diventano davvero strette: fino a
+   qui resta testo-a-sinistra / foto-a-destra, che è la composizione voluta */
+@media (max-width: 860px) {
+  .story-pair, .story-pair.is-reversed { grid-template-columns: minmax(0, 1fr); }
+  .story-pair.is-reversed .story-text { order: 2; }
+  .page-banner { aspect-ratio: 3 / 2; }
+  .hero { grid-template-columns: minmax(0, 1fr); align-items: start; min-height: min(680px, 88vh); }
+  .hero-copy { max-width: none; }
+  /* impilato la sfumatura gira in verticale, e resta piena per tutta l'altezza
+     del testo: pulsanti compresi */
+  .hero-bg-blur {
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 84%, transparent 98%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 68%, rgba(0, 0, 0, 0.45) 84%, transparent 98%);
+  }
+  .hero-veil {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 242, 233, 0.95) 0%,
+      rgba(247, 242, 233, 0.93) 62%,
+      rgba(247, 242, 233, 0.72) 78%,
+      rgba(247, 242, 233, 0.18) 92%,
+      rgba(247, 242, 233, 0) 100%
+    );
+  }
+}
+
+@media (max-width: 760px) {
+  .announcement { justify-content: center; font-size: 0.55rem; letter-spacing: 0.08em; text-align: center; }
+  .announcement span:not(:first-child) { display: none; }
+  .menu-button { display: block; }
+  .navigation {
+    position: absolute;
+    top: 100%; /* segue l'altezza reale dell'header, anche quando si compatta */
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 26px var(--pad) 32px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .navigation.is-open { display: flex; animation: menuIn 420ms var(--ease); }
+  .navigation .nav-cta { text-align: center; justify-content: center; display: flex; }
+  .product-grid, .review-list, .contact-details { grid-template-columns: minmax(0, 1fr); }
+  /* si sovrapporrebbe alla scheda di Google: qui l'indirizzo sopra è già un link alla mappa */
+  .map-link { display: none; }
+  :is(.product-grid, .review-list) .reveal:nth-child(n) { transition-delay: 0ms; }
+  .hero-actions { gap: 22px; }
+  footer { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+/* sotto i 520px due colonne di numeri diventano tre righe di testo a capo */
+@media (max-width: 520px) {
+  .credentials { grid-template-columns: minmax(0, 1fr); }
+  .credentials div { border-left: 0; border-top: 1px solid var(--line); }
+  .credentials div:first-child { border-top: 0; }
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+  .hero-bg { animation: none; }
+}
