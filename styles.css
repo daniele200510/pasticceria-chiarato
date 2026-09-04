@@ -144,20 +144,6 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 
 /* ---------- barra informazioni + header ---------- */
 
-.announcement {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 11px var(--pad);
-  color: var(--gold-light);
-  background: var(--brown);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.announcement a { transition: color 300ms var(--ease); }
-.announcement a:hover { color: var(--white); }
-
 .site-header {
   position: sticky;
   top: 0;
@@ -245,6 +231,9 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 }
 .hero-bg {
   position: absolute;
+  /* appena sfocata: la sala fa atmosfera, non deve competere col titolo */
+  filter: blur(2px);
+  transform: scale(1.03); /* copre i bordi mangiati dalla sfocatura */
   inset: 0;
   z-index: -3;
   width: 100%;
@@ -262,8 +251,8 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
   transform: scale(1.08); /* la sfocatura mangerebbe i bordi */
   /* orizzontale netto: inclinata di 5° scopriva il testo in basso a sinistra
      sulle finestre più alte che larghe */
-  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 62%, transparent 74%);
-  mask-image: linear-gradient(to right, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 62%, transparent 74%);
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 44%, rgba(0, 0, 0, 0.5) 56%, transparent 70%);
+  mask-image: linear-gradient(to right, #000 0%, #000 44%, rgba(0, 0, 0, 0.5) 56%, transparent 70%);
 }
 /* velo crema, si spegne dove la foto deve tornare leggibile */
 .hero-veil {
@@ -281,19 +270,18 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
     rgba(247, 242, 233, 0) 76%
   );
 }
-/* la seconda foto sta appoggiata sopra la prima come una stampa sul tavolo:
-   passe-partout crema, ombra lunga, filo d'oro. Assoluta, così non entra nella
-   griglia dell'hero e non sposta il testo */
+/* la seconda foto galleggia sopra la prima: angoli tondi, ombra profonda,
+   didascalia in un pastiglia di vetro dentro l'immagine */
 .hero-inset {
   position: absolute;
   right: var(--pad);
   bottom: clamp(26px, 4vw, 58px);
   z-index: 1;
-  width: clamp(184px, 24vw, 330px);
+  width: clamp(190px, 26vw, 348px);
   margin: 0;
-  padding: 10px 10px 0;
-  background: var(--cream);
-  box-shadow: 0 0 0 1px var(--line), 0 34px 70px -32px rgba(43, 30, 16, 0.7);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(255, 253, 248, 0.5) inset, 0 34px 64px -26px rgba(28, 17, 7, 0.78);
   animation: insetIn 1500ms 620ms var(--ease) both;
 }
 .hero-inset img {
@@ -304,11 +292,17 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
   object-fit: cover;
 }
 .hero-inset figcaption {
-  padding: 11px 2px 12px;
-  color: var(--brown-soft);
-  font-size: 0.55rem;
-  letter-spacing: 0.19em;
-  text-align: center;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 7px 13px 6px;
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.66);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  backdrop-filter: blur(12px) saturate(1.3);
+  color: var(--brown);
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 @keyframes insetIn {
@@ -594,8 +588,8 @@ footer a:hover { color: var(--cream); }
 .hero-bg { animation: heroIn 2600ms var(--ease) both; }
 .hero-bg-blur { animation: heroInBlur 2600ms var(--ease) both; }
 @keyframes heroIn {
-  from { transform: scale(1.08); }
-  to { transform: none; }
+  from { transform: scale(1.11); }
+  to { transform: scale(1.03); }
 }
 @keyframes heroInBlur {
   from { transform: scale(1.17); }
@@ -662,8 +656,6 @@ footer a:hover { color: var(--cream); }
 }
 
 @media (max-width: 760px) {
-  .announcement { justify-content: center; font-size: 0.55rem; letter-spacing: 0.08em; text-align: center; }
-  .announcement span:not(:first-child) { display: none; }
   .menu-button { display: block; }
   .navigation {
     position: absolute;

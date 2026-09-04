@@ -44,12 +44,14 @@ if ("IntersectionObserver" in window) {
   );
   revealItems.forEach((item) => revealObserver.observe(item));
 
-  // l'header si compatta quando la barra indirizzo esce dallo schermo.
-  // ponytail: osservo un elemento che già esiste, così niente listener di scroll
-  const topBar = document.querySelector(".announcement");
+  // l'header si compatta appena si scorre: osservo una riga alta 1px in cima
+  // alla pagina invece di stare in ascolto sullo scroll
   const header = document.querySelector(".site-header");
-  if (topBar && header) {
-    new IntersectionObserver(([entry]) => header.classList.toggle("is-scrolled", !entry.isIntersecting)).observe(topBar);
+  if (header) {
+    const inizio = document.createElement("div");
+    inizio.style.cssText = "position:absolute;top:0;height:1px;width:1px";
+    document.body.prepend(inizio);
+    new IntersectionObserver(([entry]) => header.classList.toggle("is-scrolled", !entry.isIntersecting)).observe(inizio);
   }
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
