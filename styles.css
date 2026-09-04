@@ -281,6 +281,41 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
     rgba(247, 242, 233, 0) 76%
   );
 }
+/* la seconda foto sta appoggiata sopra la prima come una stampa sul tavolo:
+   passe-partout crema, ombra lunga, filo d'oro. Assoluta, così non entra nella
+   griglia dell'hero e non sposta il testo */
+.hero-inset {
+  position: absolute;
+  right: var(--pad);
+  bottom: clamp(26px, 4vw, 58px);
+  z-index: 1;
+  width: clamp(184px, 24vw, 330px);
+  margin: 0;
+  padding: 10px 10px 0;
+  background: var(--cream);
+  box-shadow: 0 0 0 1px var(--line), 0 34px 70px -32px rgba(43, 30, 16, 0.7);
+  animation: insetIn 1500ms 620ms var(--ease) both;
+}
+.hero-inset img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.hero-inset figcaption {
+  padding: 11px 2px 12px;
+  color: var(--brown-soft);
+  font-size: 0.55rem;
+  letter-spacing: 0.19em;
+  text-align: center;
+  text-transform: uppercase;
+}
+@keyframes insetIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
 .hero-copy { max-width: 580px; }
 .hero h1 { font-size: var(--h1); }
 .hero-lede { max-width: 490px; margin-top: 24px; color: var(--brown-soft); font-size: 0.95rem; }
@@ -607,6 +642,7 @@ footer a:hover { color: var(--cream); }
   .page-banner { aspect-ratio: 3 / 2; }
   .hero { grid-template-columns: minmax(0, 1fr); align-items: start; min-height: min(680px, 88vh); }
   .hero-copy { max-width: none; }
+  .hero-inset { right: clamp(14px, 4vw, 30px); bottom: clamp(14px, 3vw, 26px); width: clamp(132px, 34vw, 220px); }
   /* impilato la sfumatura gira in verticale, e resta piena per tutta l'altezza
      del testo: pulsanti compresi */
   .hero-bg-blur {
@@ -667,5 +703,5 @@ footer a:hover { color: var(--cream); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
-  .hero-bg { animation: none; }
+  .hero-bg, .hero-inset { animation: none; }
 }
