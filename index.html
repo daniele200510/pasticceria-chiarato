@@ -128,45 +128,44 @@
     </header>
 
     <main>
+      <!-- schermo diviso: la sala a sinistra con sopra il titolo, la sfogliatura
+           a destra. Due foto piene, nessuna cornice -->
       <section id="home" class="hero">
-        <img
-          class="hero-bg"
-          src="assets/photos/hero-luogo.jpg"
-          alt="La sala della pasticceria con il soffitto a travi e le luci accese"
-          width="1080"
-          height="1080"
-          fetchpriority="high"
-        />
-        <img class="hero-bg hero-bg-blur" src="assets/photos/hero-luogo.jpg" alt="" aria-hidden="true" width="1080" height="1080" />
-        <div class="hero-veil" aria-hidden="true"></div>
+        <div class="hero-panel hero-panel-place">
+          <img
+            src="assets/photos/hero-luogo.jpg"
+            alt="La sala della pasticceria con il soffitto a travi e le luci accese"
+            width="1080"
+            height="1080"
+            fetchpriority="high"
+          />
+          <div class="hero-scrim" aria-hidden="true"></div>
 
-        <!-- la sfogliatura appoggiata sopra la foto grande: due scatti diversi
-             nella stessa inquadratura invece di una sola immagine di fondo -->
-        <figure class="hero-inset">
+          <div class="hero-copy">
+            <p class="eyebrow reveal">Pasticceria &amp; Caffetteria · Arcade (TV)</p>
+            <h1 class="reveal">La dolcezza<br /><em>ha un luogo.</em></h1>
+            <p class="hero-lede reveal">
+              Dalla colazione del mattino alla pasticceria mignon, fino alle torte
+              per i vostri momenti più belli: tutto fatto a mano, ogni giorno,
+              con ingredienti scelti.
+            </p>
+            <div class="hero-actions reveal">
+              <a class="button" href="#mondo">Scopri Chiarato</a>
+              <a class="under-link" href="#contatti">Vieni a trovarci</a>
+            </div>
+          </div>
+        </div>
+
+        <figure class="hero-panel hero-panel-bake">
           <img
             src="assets/photos/hero-sfoglia.jpg"
             alt="Croissant tagliato a metà: la sfogliatura a nido d'ape appena sfornata"
-            width="900"
-            height="581"
+            width="1376"
+            height="1116"
             fetchpriority="high"
           />
-          <figcaption>La sfogliatura</figcaption>
+          <figcaption>La sfogliatura, ogni mattina</figcaption>
         </figure>
-
-        <div class="hero-copy">
-          <p class="eyebrow reveal">Pasticceria &amp; Caffetteria · Arcade (TV)</p>
-          <h1 class="reveal">La dolcezza<br /><em>ha un luogo.</em></h1>
-          <p class="hero-lede reveal">
-            Dalla colazione del mattino alla selezione di pasticceria mignon, fino
-            alle torte personalizzate per i tuoi momenti più speciali: ogni nostra
-            creazione è realizzata a mano con ingredienti freschi, genuini e
-            accuratamente selezionati.
-          </p>
-          <div class="hero-actions reveal">
-            <a class="button" href="#mondo">Scopri Chiarato</a>
-            <a class="under-link" href="#contatti">Vieni a trovarci</a>
-          </div>
-        </div>
       </section>
 
       <section class="credentials" aria-label="Chiarato in breve">
