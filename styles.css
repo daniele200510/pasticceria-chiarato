@@ -219,55 +219,39 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 
 /* ---------- hero ---------- */
 
-/* lo sfondo è una foto sola in due metà: sopra la sala, sotto la sfogliatura.
-   Sfocate quel tanto che basta perché restino atmosfera e non contenuto */
+/* testo a sinistra sul fondo crema, foto a destra fino al bordo: sopra la sala,
+   sotto la sfogliatura. Appena sfocate, che restino atmosfera */
 .hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: min(780px, 86vh);
-  padding: clamp(48px, 6vw, 90px) var(--pad);
-  isolation: isolate;
-  overflow: hidden;
-}
-.hero-split {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.96fr);
+  align-items: stretch;
+  min-height: min(760px, 84vh);
+  background: var(--cream);
 }
-.hero-panel { position: relative; overflow: hidden; background: var(--sand); }
-.hero-panel img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(3px);
-  transform: scale(1.04); /* la sfocatura mangerebbe i bordi */
+.hero-copy {
+  align-self: center;
+  max-width: 580px;
+  padding: clamp(40px, 5vw, 80px) clamp(24px, 3vw, 56px) clamp(40px, 5vw, 80px) var(--pad);
 }
-/* la sala inquadrata sul bancone, la sfogliatura sul nido d'ape */
-.hero-panel-place img { object-position: 50% 56%; animation: heroIn 3000ms var(--ease) both; }
-.hero-panel-bake img { object-position: 50% 52%; animation: heroInBake 3000ms var(--ease) both; }
-
-/* velo crema, si spegne dove le foto devono tornare a vedersi */
-.hero-veil {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(
-    to right,
-    rgba(247, 242, 233, 0.95) 0%,
-    rgba(247, 242, 233, 0.92) 42%,
-    rgba(247, 242, 233, 0.6) 56%,
-    rgba(247, 242, 233, 0.14) 68%,
-    rgba(247, 242, 233, 0) 78%
-  );
-}
-
-.hero-copy { max-width: 580px; }
 .hero h1 { font-size: var(--h1); }
 .hero-lede { max-width: 480px; margin-top: 24px; color: var(--brown-soft); font-size: 0.95rem; }
 .hero-actions { display: flex; align-items: center; gap: 28px; margin-top: 32px; }
+
+.hero-split { display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+.hero-panel { position: relative; overflow: hidden; background: var(--sand); }
+.hero-panel picture { position: absolute; inset: 0; display: block; }
+.hero-panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(2px);
+  transform: scale(1.04); /* la sfocatura mangerebbe i bordi */
+}
+.hero-panel-place img { object-position: 50% 58%; animation: heroIn 3000ms var(--ease) both; }
+.hero-panel-bake { box-shadow: 0 -1px 0 rgba(247, 242, 233, 0.7); }
+.hero-panel-bake img { object-position: 62% 50%; animation: heroInBake 3000ms var(--ease) both; }
 
 /* ---------- fascia numeri ---------- */
 
@@ -580,30 +564,19 @@ footer a:hover { color: var(--cream); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* da telefono le due metà girano: affiancate, croissant a sinistra e sala a
-   destra, con il velo che scende dall'alto per tenere leggibile il titolo */
+/* da telefono il testo va sopra e le due foto si affiancano sotto:
+   croissant a sinistra, sala a destra */
 @media (max-width: 860px) {
   .story-pair, .story-pair.is-reversed { grid-template-columns: minmax(0, 1fr); }
   .story-pair.is-reversed .story-text { order: 2; }
   .page-banner { aspect-ratio: 3 / 2; }
-  .hero { align-items: start; min-height: min(680px, 88vh); }
-  .hero-copy { max-width: none; }
-  .hero-split { grid-template-rows: 1fr; grid-template-columns: 1fr 1fr; }
-  .hero-panel-bake { grid-area: 1 / 1; }
+  .hero { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+  .hero-copy { max-width: none; padding: clamp(34px, 7vw, 60px) var(--pad); }
+  .hero-split { grid-template-rows: minmax(0, 1fr); grid-template-columns: 1fr 1fr; height: min(420px, 48vh); }
+  .hero-panel-bake { grid-area: 1 / 1; box-shadow: 1px 0 0 rgba(247, 242, 233, 0.7); }
   .hero-panel-place { grid-area: 1 / 2; }
-  /* colonne strette: ognuna inquadrata sul suo soggetto */
-  .hero-panel-place img { object-position: 30% 52%; }
-  .hero-panel-bake img { object-position: 78% 50%; }
-  .hero-veil {
-    background: linear-gradient(
-      180deg,
-      rgba(247, 242, 233, 0.95) 0%,
-      rgba(247, 242, 233, 0.93) 48%,
-      rgba(247, 242, 233, 0.68) 64%,
-      rgba(247, 242, 233, 0.14) 82%,
-      rgba(247, 242, 233, 0) 94%
-    );
-  }
+  .hero-panel-place img { object-position: 46% 50%; }
+  .hero-panel-bake img { object-position: 54% 50%; }
 }
 
 @media (max-width: 760px) {

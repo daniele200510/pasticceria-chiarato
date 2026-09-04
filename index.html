@@ -133,28 +133,6 @@
       <!-- lo sfondo è diviso in due: sopra la sala, sotto la sfogliatura. Appena
            sfocate, con il velo crema che tiene leggibile il titolo -->
       <section id="home" class="hero">
-        <div class="hero-split" aria-hidden="true">
-          <div class="hero-panel hero-panel-place">
-            <img
-              src="assets/photos/hero-luogo.jpg"
-              alt=""
-              width="1400"
-              height="933"
-              fetchpriority="high"
-            />
-          </div>
-          <div class="hero-panel hero-panel-bake">
-            <img
-              src="assets/photos/hero-sfoglia.jpg"
-              alt=""
-              width="1500"
-              height="1069"
-              fetchpriority="high"
-            />
-          </div>
-        </div>
-        <div class="hero-veil" aria-hidden="true"></div>
-
         <div class="hero-copy">
           <p class="eyebrow reveal">Pasticceria &amp; Caffetteria · Arcade (TV)</p>
           <h1 class="reveal">La dolcezza<br /><em>ha un luogo.</em></h1>
@@ -166,6 +144,20 @@
           <div class="hero-actions reveal">
             <a class="button" href="#mondo">Scopri Chiarato</a>
             <a class="under-link" href="#contatti">Vieni a trovarci</a>
+          </div>
+        </div>
+        <div class="hero-split" aria-hidden="true">
+          <div class="hero-panel hero-panel-place">
+            <picture>
+              <source media="(max-width: 860px)" srcset="assets/photos/hero-luogo-vert.jpg" />
+              <img src="assets/photos/hero-luogo.jpg" alt="" width="1200" height="1200" fetchpriority="high" />
+            </picture>
+          </div>
+          <div class="hero-panel hero-panel-bake">
+            <picture>
+              <source media="(max-width: 860px)" srcset="assets/photos/hero-sfoglia-vert.jpg" />
+              <img src="assets/photos/hero-sfoglia.jpg" alt="" width="1400" height="1008" fetchpriority="high" />
+            </picture>
           </div>
         </div>
       </section>
