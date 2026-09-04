@@ -347,6 +347,12 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 .story-text h2 { font-size: clamp(1.9rem, 3vw, 2.9rem); }
 .story-text p { margin-top: 20px; color: var(--brown-soft); font-size: 0.95rem; }
 
+/* galleria di categoria: stessa griglia dei prodotti, ogni foto nel ritaglio
+   fisso di .frame così le verticali e le orizzontali stanno in riga */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.gallery-grid .frame { aspect-ratio: 4 / 5; }
+.gallery-grid .frame:hover img { transform: scale(1.05); }
+
 .page-cta { padding: var(--section-y) var(--pad); background: var(--sand); text-align: center; }
 .page-cta h2 { font-size: var(--h2); }
 .page-cta-actions { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 32px; flex-wrap: wrap; }
@@ -403,6 +409,16 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 }
 .carousel-track img.is-photo { padding: 0; object-fit: cover; }
 .carousel-track li:hover img { transform: translateY(-6px); }
+/* una scheda del carosello può portare a una pagina: il link prende il posto
+   della colonna, così immagine e didascalia restano quelle delle altre schede */
+.carousel-track a {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
 .carousel-track span {
   margin-top: 14px;
   color: var(--brown-soft);
@@ -580,6 +596,7 @@ footer a:hover { color: var(--cream); }
   .credentials div:nth-child(n + 3) { border-top: 1px solid var(--line); }
   .section-intro, .contact-section { grid-template-columns: minmax(0, 1fr); align-items: start; }
   .contact-map { min-height: 300px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* l'hero si impila solo quando le due colonne diventano davvero strette: fino a
