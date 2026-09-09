@@ -171,11 +171,11 @@ h1 em, h2 em { color: var(--gold); font-style: italic; }
 
 .logo { display: block; flex: 0 0 auto; }
 .logo img {
-  width: clamp(146px, 15vw, 208px);
+  width: clamp(182px, 18.5vw, 260px);
   height: auto;
   transition: width 520ms var(--ease);
 }
-.is-scrolled .logo img { width: clamp(124px, 12vw, 166px); }
+.is-scrolled .logo img { width: clamp(155px, 15vw, 208px); }
 
 .navigation { display: flex; align-items: center; gap: clamp(18px, 2.8vw, 44px); font-size: 0.78rem; }
 .navigation a { position: relative; transition: color 300ms var(--ease); }
@@ -548,7 +548,7 @@ footer a:hover { color: var(--cream); }
 /* con cinque voci più il pulsante la barra si stringe prima di impilarsi */
 @media (max-width: 1180px) {
   .navigation { gap: clamp(14px, 1.9vw, 26px); font-size: 0.74rem; }
-  .logo img { width: clamp(132px, 13vw, 172px); }
+  .logo img { width: clamp(165px, 16vw, 215px); }
 }
 
 /* fascia intermedia: la finestra è ancora larga abbastanza per due colonne,
